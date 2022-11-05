@@ -9,5 +9,5 @@ spec:
   ports:
     - protocol: TCP
       port: 9090
-      targetPort: 80  # <--- mapped to containerPort of Pod
+      targetPort: 8080  # <--- mapped to containerPort of Pod
   type: LoadBalancer

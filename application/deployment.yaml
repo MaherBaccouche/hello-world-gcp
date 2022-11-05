@@ -22,4 +22,4 @@ spec:
       - name: app
         image: maherbaccouche/tektondemo
         ports:
-        - containerPort: 80
+        - containerPort: 8080
