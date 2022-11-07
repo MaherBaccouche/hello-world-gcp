@@ -1,0 +1,9 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineResource
+metadata:
+  name: docker-target
+spec:
+  type: image
+  params:
+    - name: url
+      value: index.docker.io/maherbaccouche/tektondemo # Replace with your docker hub repo url
