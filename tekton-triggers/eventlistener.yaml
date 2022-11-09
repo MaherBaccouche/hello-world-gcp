@@ -1,0 +1,50 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: trigger-demo-el
+  namespace: tekton-pipelines
+spec:
+  serviceAccountName: tekton-github-triggers
+  triggers:
+    - triggerRef: github-listener
+  resources:
+    kubernetesResource:
+      serviceType: LoadBalancer
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: Trigger
+metadata:
+  name: github-listener
+  namespace: tekton-pipelines
+spec:
+  interceptors:
+    - ref:
+        name: "github"
+      params:
+        - name: "secretRef"
+          value:
+            secretName: github-trigger-secret
+            secretKey: secret
+        - name: "eventTypes"
+          value: ["push"]
+    - ref:
+        name: "cel"
+      params:
+        - name: "filter"
+          value: body.ref == 'refs/heads/main'
+  bindings:
+    - ref: github-binding
+  template:
+    ref: build-deploy-template
+---
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: github-binding
+  namespace: tekton-pipelines
+spec:
+  params:
+    - name: gitRepository
+      value: $(body.repository.html_url)
+    - name: commits
+      value: $(body.commits)
