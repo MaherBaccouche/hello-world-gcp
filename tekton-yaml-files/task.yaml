@@ -40,4 +40,4 @@ spec:
         #- --context=$(inputs.params.pathToContext)
         - --dockerfile=$(params.pathToDockerFile)
         - --destination=$(resources.outputs.builtImage.url)
-        - --context=$(params.pathToContext
+        - --context=$(params.pathToContext)
